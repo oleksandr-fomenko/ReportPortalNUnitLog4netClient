@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Oleksandr Fomenko</Authors>
+    <Company>automation-solutions-set</Company>
+    <Description>ReportPortal Client for NUnit and log4net</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/automation-solutions-set/ReportPortalNUnitLog4netClient</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/automation-solutions-set/ReportPortalNUnitLog4netClient</RepositoryUrl>
+    <RepositoryType>ReportPortal,HttpClient</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
