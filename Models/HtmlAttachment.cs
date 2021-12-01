@@ -5,6 +5,10 @@ namespace ReportPortalNUnitLog4netClient.Models
 {
     public class HtmlAttachment : Attach
     {
+        public HtmlAttachment()
+        {
+        }
+
         public HtmlAttachment(string name, string html)
         {
             Name = name;
