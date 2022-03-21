@@ -15,9 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="ReportPortal.Client" Version="2.1.15" />
+    <PackageReference Include="log4net" Version="2.0.14" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="SoftAPIClient" Version="1.2.0" />
+    <PackageReference Include="SoftAPIClient.RestSharpNewtonsoft" Version="1.2.0" />
   </ItemGroup>
 
 </Project>
