@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework.Interfaces;
-using ReportPortal.Client.Models;
+using ReportPortalNUnitLog4netClient.Models.Api;
 
 namespace ReportPortalNUnitLog4netClient.Core.Logging
 {

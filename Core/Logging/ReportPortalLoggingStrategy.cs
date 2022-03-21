@@ -3,7 +3,7 @@ using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using NUnit.Framework;
-using ReportPortal.Client.Models;
+using ReportPortalNUnitLog4netClient.Models.Api;
 
 namespace ReportPortalNUnitLog4netClient.Core.Logging
 {
