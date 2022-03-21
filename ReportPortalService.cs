@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using ReportPortal.Client.Models;
 using ReportPortalNUnitLog4netClient.Core;
 using ReportPortalNUnitLog4netClient.Models;
+using ReportPortalNUnitLog4netClient.Models.Api;
+using Attribute = ReportPortalNUnitLog4netClient.Models.Api.Attribute;
 
 namespace ReportPortalNUnitLog4netClient
 {
@@ -49,7 +50,7 @@ namespace ReportPortalNUnitLog4netClient
             return this;
         }
 
-        public IReportPortalService StartLaunch(List<string> tags = null)
+        public IReportPortalService StartLaunch(List<Attribute> tags = null)
         {
             return _iReportPortalService.StartLaunch(tags);
         }
@@ -59,7 +60,7 @@ namespace ReportPortalNUnitLog4netClient
             return _iReportPortalService?.FinishLaunch();
         }
 
-        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<string> tags, string testCodeId = null, List<string> tmsIds = null)
+        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null)
         {
             return _iReportPortalService.StartTest(test, suiteName, subSuite, tags, testCodeId, tmsIds);
         }
