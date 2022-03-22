@@ -3,14 +3,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using ReportPortal.Client;
-using ReportPortal.Client.Models;
-using ReportPortal.Client.Requests;
 using ReportPortalNUnitLog4netClient.Core.Logging;
 using ReportPortalNUnitLog4netClient.Models;
+using ReportPortalNUnitLog4netClient.Models.Api;
+using SoftAPIClient.Core;
+using SoftAPIClient.RestSharpNewtonsoft;
+using Attribute = ReportPortalNUnitLog4netClient.Models.Api.Attribute;
 
 namespace ReportPortalNUnitLog4netClient.Core
 {
@@ -20,7 +20,7 @@ namespace ReportPortalNUnitLog4netClient.Core
         private const string ProductBug = "PB001";
         private readonly IDictionary<Type, string> _defectsResolutions = new Dictionary<Type, string>();
 
-        private readonly Service _service;
+        private readonly IReportPortalClient _service;
         private readonly RpConfiguration _rpConfiguration;
         private static ConcurrentDictionary<string, Tuple<string, string, string, string>> _tests;
         private static ConcurrentDictionary<string, string> _suites;
@@ -34,7 +34,9 @@ namespace ReportPortalNUnitLog4netClient.Core
         public ReportPortalEnabled(RpConfiguration rpConfiguration, IDictionary<Type, string> defectsMapping = null)
         {
             _rpConfiguration = rpConfiguration;
-            _service = new Service(_rpConfiguration.Uri, _rpConfiguration.Project, _rpConfiguration.Uuid);
+            RestClient.Instance.AddResponseConvertor(new RestSharpResponseConverter());
+
+            _service = RestClient.Instance.GetService<IReportPortalClient>(new ReportPortalBaseInterceptor(rpConfiguration));
             _tests = new ConcurrentDictionary<string, Tuple<string, string, string, string>>();
             _suites = new ConcurrentDictionary<string, string>();
             _subSuites = new ConcurrentDictionary<string, string>();
@@ -45,16 +47,16 @@ namespace ReportPortalNUnitLog4netClient.Core
                 _defectsResolutions = defectsMapping;
             }
         }
-        public IReportPortalService StartLaunch(List<string> tags = null)
+        public IReportPortalService StartLaunch(List<Attribute> tags = null)
         {
             var startTime = DateTime.UtcNow;
-            var launch = Task.Run(async () => await _service.StartLaunchAsync(new StartLaunchRequest
+            var launch = _service.StartLaunch(new StartLaunchRequest
             {
                 Name = _rpConfiguration.LaunchName,
                 StartTime = startTime,
                 Mode = _rpConfiguration.Mode,
-                Tags = tags
-            })).Result;
+                Attributes = tags
+            }).Invoke().Body;
             launch.StartTime = startTime;
             Launch = launch;
             return this;
@@ -75,12 +77,24 @@ namespace ReportPortalNUnitLog4netClient.Core
             }
             finally
             {
-                Task.Run(async () =>
+                var endTime = DateTime.UtcNow;
+                Launch.EndTime = endTime;
+
+                if (isForceFinish)
                 {
-                    var endTime = DateTime.UtcNow;
-                    Launch.EndTime = endTime;
-                    await _service.FinishLaunchAsync(Launch.Id, new FinishLaunchRequest { EndTime = endTime }, isForceFinish);
-                }).Wait();
+                    _service.StopLaunch(Launch.Id, new FinishLaunchRequest
+                    {
+                        EndTime = endTime
+                    }).Invoke();
+                }
+                else
+                {
+                    _service.FinishLaunch(Launch.Id, new FinishLaunchRequest
+                    {
+                        EndTime = endTime
+                    }).Invoke();
+                }
+
                 if (_rpConfiguration.IsWriteLaunchData)
                 {
                     WriteLaunchDataToFile();
@@ -89,20 +103,20 @@ namespace ReportPortalNUnitLog4netClient.Core
             return this;
         }
 
-        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<string> tags, string testCodeId = null, List<string> tmsIds = null)
+        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null)
         {
             lock (_lockObj)
             {
                 //check if suite is started
                 if (!_suites.ContainsKey(suiteName))
                 {
-                    var suiteItem = _service.StartTestItemAsync(new StartTestItemRequest
+                    var suiteItem = _service.StartTestItem(new StartTestItemRequest
                     {
                         LaunchId = Launch.Id,
                         Name = suiteName,
                         StartTime = DateTime.UtcNow,
                         Type = TestItemType.Suite
-                    }).Result;
+                    }).Invoke().Body;
                     _suites.GetOrAdd(suiteName, suiteItem.Id);
                 }
             }
@@ -114,13 +128,13 @@ namespace ReportPortalNUnitLog4netClient.Core
                 if (!_subSuites.ContainsKey(suitePlusSubSuiteKey))
                 {
                     var suiteId = _suites[suiteName];
-                    var subSuiteItem = _service.StartTestItemAsync(suiteId, new StartTestItemRequest
+                    var subSuiteItem = _service.StartTestItem(suiteId, new StartTestItemRequest
                     {
                         LaunchId = Launch.Id,
                         Name = subSuite,
                         StartTime = DateTime.UtcNow,
                         Type = TestItemType.Suite,
-                    }).Result;
+                    }).Invoke().Body;
                     _subSuites.GetOrAdd(suitePlusSubSuiteKey, subSuiteItem.Id);
                 }
             }
@@ -132,29 +146,29 @@ namespace ReportPortalNUnitLog4netClient.Core
                 if (!_parentTestItem.ContainsKey(parentItemName))
                 {
                     var subSuiteId = _subSuites[suitePlusSubSuiteKey];
-                    var parentItem = _service.StartTestItemAsync(subSuiteId, new StartTestItemRequest
+                    var parentItem = _service.StartTestItem(subSuiteId, new StartTestItemRequest
                     {
                         LaunchId = Launch.Id,
                         Name = GetParentItemName(test),
                         StartTime = DateTime.UtcNow,
                         Type = TestItemType.Suite,
-                        Tags = tags,
+                        Attributes = tags,
                         Description = GetTestParentDescription(testCodeId, tmsIds)
-                    }).Result;
+                    }).Invoke().Body;
                     _parentTestItem.GetOrAdd(parentItemName, parentItem.Id);
                 }
             }
 
             var testName = GetTestName(test);
             var parentId = _parentTestItem[parentItemName];
-            var testItem = _service.StartTestItemAsync(parentId, new StartTestItemRequest
+            var testItem = _service.StartTestItem(parentId, new StartTestItemRequest
             {
                 LaunchId = Launch.Id,
                 Name = testName,
                 StartTime = DateTime.UtcNow,
                 Type = TestItemType.Test,
                 Description = GetTestDataDescription(test)
-            }).Result;
+            }).Invoke().Body;
 
             var resultItem = new Tuple<string, string, string, string>(testItem.Id, parentId, _subSuites[suitePlusSubSuiteKey], _suites[suiteName]);
             _tests.GetOrAdd(test.ID, resultItem);
@@ -175,22 +189,22 @@ namespace ReportPortalNUnitLog4netClient.Core
             {
                 var request = new AddLogItemRequest
                 {
-                    TestItemId = testItem.Item1,
+                    ItemId = testItem.Item1,
                     Level = LogLevel.Error,
                     Time = DateTime.UtcNow,
-                    Text = errorMessage
+                    Message = errorMessage
                 };
-                var result = _service.AddLogItemAsync(request).Result;
+                _service.AddLogItem(request).Invoke();
             }
 
-            var issue = GetIssue(status, ticketIds, out bool isProductBug);
-            var message = _service.FinishTestItemAsync(testItem.Item1, new FinishTestItemRequest
+            var issue = GetIssue(status, ticketIds, out var isProductBug);
+            _service.FinishTestItem(testItem.Item1, new FinishTestItemRequest
             {
                 EndTime = DateTime.UtcNow,
                 Status = status,
                 Issue = issue,
                 Description = BuildDescriptionForTheTestItem(ticketIds, issue, isProductBug)
-            }).Result;
+            }).Invoke();
 
             return this;
         }
@@ -205,13 +219,25 @@ namespace ReportPortalNUnitLog4netClient.Core
             var testItem = _tests[testId];
             var request = new AddLogItemRequest
             {
-                TestItemId = testItem.Item1,
+                ItemId = testItem.Item1,
                 Level = level,
                 Time = time,
-                Text = text,
-                Attach = attach
+                Message = text
             };
-            var result =_service.AddLogItemAsync(request).Result;
+            if (attach == null)
+            {
+                _service.AddLogItem(request).Invoke();
+            }
+            else
+            {
+                var fileParameter = new FileParameter("file", attach.Bytes, attach.Name, attach.ContentType);
+                request.File = attach;
+                var requestBody = new List<AddLogItemRequest>
+                {
+                    request
+                };
+                _service.AddLogItem(requestBody, fileParameter).Invoke();
+            }
             return this;
         }
 
@@ -255,10 +281,10 @@ namespace ReportPortalNUnitLog4netClient.Core
         {
             foreach (var pair in items)
             {
-                var message = _service.FinishTestItemAsync(pair.Value, new FinishTestItemRequest
+                _service.FinishTestItem(pair.Value, new FinishTestItemRequest
                 {
                     EndTime = DateTime.UtcNow,
-                }).Result;
+                }).Invoke();
             }
         }
 
@@ -281,7 +307,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                     isProductBug = false;
                     return new Issue
                     {
-                        Type = resolutionResults.Value,
+                        IssueType = resolutionResults.Value,
                         Comment = errorMessage,
                         AutoAnalyzed = false,
                         IgnoreAnalyzer = true,
@@ -299,10 +325,11 @@ namespace ReportPortalNUnitLog4netClient.Core
 
             var issue = new Issue
             {
-                Type = ProductBug,
+                IssueType = ProductBug,
                 Comment = comment,
                 AutoAnalyzed = false,
                 IgnoreAnalyzer = true,
+                ExternalSystemIssues = BuildExternalSystemIssues(ticketIds)
             };
             return issue;
         }
@@ -328,6 +355,21 @@ namespace ReportPortalNUnitLog4netClient.Core
                 }
                 return _rpConfiguration.IssueUri + t;
             }).Aggregate((first, next) =>  $"{first};{Environment.NewLine}{next}");
+        }
+
+        private List<ExternalSystemIssue> BuildExternalSystemIssues(IEnumerable<string> ticketIds)
+        {
+            const string undefinedValue = "undefined_value";
+            var btsProject = _rpConfiguration.IssueProjectName ?? undefinedValue;
+            var btsUrl = _rpConfiguration.IssueUri ?? undefinedValue;
+            var ticketUrl = _rpConfiguration.IssueTicketUrl ?? undefinedValue;
+            return ticketIds.Select(ticketId => new ExternalSystemIssue
+            {
+                Url = ticketUrl + ticketId,
+                BtsUrl = btsUrl,
+                BtsProject = btsProject,
+                TicketId = ticketId
+            }).ToList();
         }
 
         private string GetTestParentDescription(string testCaseId = null, IReadOnlyCollection<string> testCaseTicketIds = null)
