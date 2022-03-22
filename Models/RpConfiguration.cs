@@ -1,5 +1,5 @@
 ﻿using System;
-using ReportPortal.Client.Models;
+using ReportPortalNUnitLog4netClient.Models.Api;
 
 namespace ReportPortalNUnitLog4netClient.Models
 {
@@ -12,7 +12,10 @@ namespace ReportPortalNUnitLog4netClient.Models
         public LaunchMode Mode { get; set; } = LaunchMode.Debug;
         public bool IsWriteLaunchData { get; set; }
         public bool IsEnabled { get; set; }
+        public string IssueProjectName { get; set; }
         public string IssueUri { get; set; }
+        public string IssueTicketUrl { get; set; }
         public string TestManagementSystemUri { get; set; }
+        public string ApiVersion { get; set; } = "v1";
     }
 }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using ReportPortal.Client.Models;
+using ReportPortalNUnitLog4netClient.Models.Api;
+using Attribute = ReportPortalNUnitLog4netClient.Models.Api.Attribute;
 
 namespace ReportPortalNUnitLog4netClient.Core
 {
     internal class ReportPortalDisabled : IReportPortalService
     {
-        public IReportPortalService StartLaunch(List<string> tags = null)
+        public IReportPortalService StartLaunch(List<Attribute> tags = null)
         {
             return this;
         }
@@ -18,7 +19,7 @@ namespace ReportPortalNUnitLog4netClient.Core
             return this;
         }
 
-        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<string> tags, string testCodeId = null, List<string> tmsIds = null)
+        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null)
         {
             return this;
         }
