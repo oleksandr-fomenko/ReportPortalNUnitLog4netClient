@@ -22,4 +22,4 @@ dotnet add package ReportPortalNUnitLog4netClient
 
 Give a Star! :star:
 
-If you liked the project or if SoftAPIClient helped you, please **give a star**. If you would like to support the author - [![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Doleksandrfomenko%26type%3Dpatrons&style=flat)](https://patreon.com/oleksandrfomenko)
+If you liked the project or if it helped you, please **give a star**. If you would like to support the author - [![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Doleksandrfomenko%26type%3Dpatrons&style=flat)](https://patreon.com/oleksandrfomenko)
