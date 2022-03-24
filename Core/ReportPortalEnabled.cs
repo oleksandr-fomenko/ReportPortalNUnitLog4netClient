@@ -171,13 +171,13 @@ namespace ReportPortalNUnitLog4netClient.Core
             }).Invoke().Body;
 
             var resultItem = new Tuple<string, string, string, string>(testItem.Id, parentId, _subSuites[suitePlusSubSuiteKey], _suites[suiteName]);
-            _tests.GetOrAdd(test.ID, resultItem);
+            _tests.GetOrAdd(GetTestId(test), resultItem);
             return this;
         }
 
         public IReportPortalService FinishTest(TestContext.TestAdapter test, TestStatus testStatus, string errorMessage, List<string> ticketIds)
         {
-            var testId = test.ID;
+            var testId = GetTestId(test);
             if (!_tests.ContainsKey(testId))
             {
                 return this;
@@ -187,14 +187,7 @@ namespace ReportPortalNUnitLog4netClient.Core
             var status = testStatus.ToRpStatus();
             if (status != Status.Passed)
             {
-                var request = new AddLogItemRequest
-                {
-                    ItemId = testItem.Item1,
-                    Level = LogLevel.Error,
-                    Time = DateTime.UtcNow,
-                    Message = errorMessage
-                };
-                _service.AddLogItem(request).Invoke();
+                Log(test, LogLevel.Error, DateTime.UtcNow, errorMessage);
             }
 
             var issue = GetIssue(status, ticketIds, out var isProductBug);
@@ -211,7 +204,7 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         public IReportPortalService Log(TestContext.TestAdapter test, LogLevel level, DateTime time, string text, Attach attach = null)
         {
-            var testId = test.ID;
+            var testId = GetTestId(test);
             if (!_tests.ContainsKey(testId))
             {
                 return this;
@@ -245,6 +238,8 @@ namespace ReportPortalNUnitLog4netClient.Core
         {
             return Launch;
         }
+
+        private string GetTestId(TestContext.TestAdapter test) => test.ID;
 
         private string GetParentItemName(TestContext.TestAdapter testAdapter)
         {
