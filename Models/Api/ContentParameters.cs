@@ -6,7 +6,7 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
     public class ContentParameters
     {
         [JsonProperty("contentFields")]
-        public List<string> ContentFields { get; set; }
+        public IEnumerable<string> ContentFields { get; set; }
         [JsonProperty("itemsCount")]
         public long ItemsCount { get; set; }
         [JsonProperty("widgetOptions")]
