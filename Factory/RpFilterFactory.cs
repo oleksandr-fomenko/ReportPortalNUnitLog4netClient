@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ReportPortalNUnitLog4netClient.Models.Api;
 
 namespace ReportPortalNUnitLog4netClient.Factory
@@ -32,7 +33,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
                         SortingColumn = "number"
                     }
                 },
-                Name = launchName,
+                Name = $"{launchName}_{DateTime.Now:hhmmssff}",
                 Share = true
             };
             if (additionalConditions != null)

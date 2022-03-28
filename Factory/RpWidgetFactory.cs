@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using ReportPortalNUnitLog4netClient.Models.Api;
-using Attribute = ReportPortalNUnitLog4netClient.Models.Api.Attribute;
 
 namespace ReportPortalNUnitLog4netClient.Factory
 {
     public static class RpWidgetFactory
     {
+        private static readonly string UniquePostfix = $"{DateTime.Now:hhmmssff}";
         public static Widget LastLaunchStatistics()
         {
             return new Widget
             {
-                Name = "LAST LAUNCH STATISTICS",
+                Name = $"LAST LAUNCH STATISTICS_{UniquePostfix}",
                 Description = "Last launch statistics",
                 WidgetType = "overallStatistics",
                 ContentParameters = new ContentParameters {
@@ -40,7 +40,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 WidgetSize = new WidgetSize
                 {
                     Height = 5,
-                    Width = 5
+                    Width = 6
                 }
             };
         }
@@ -49,7 +49,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
         {
             return new Widget
             {
-                Name = "LAUNCH STATISTICS AREA",
+                Name = $"LAUNCH RESULT TREND_{UniquePostfix}",
                 Description = "Launch results trend",
                 WidgetType = "statisticTrend",
                 ContentParameters = new ContentParameters
@@ -69,13 +69,13 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 Share = true,
                 WidgetPosition = new WidgetPosition
                 {
-                    PositionX = 0,
+                    PositionX = 6,
                     PositionY = 0
                 },
                 WidgetSize = new WidgetSize
                 {
                     Height = 5,
-                    Width = 5
+                    Width = 6
                 }
             };
         }
@@ -84,7 +84,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
         {
             return new Widget
             {
-                Name = "TEST CASES GROWTH TREND CHART",
+                Name = $"TEST CASES GROWTH TREND CHART_{UniquePostfix}",
                 Description = "Test cases trend",
                 WidgetType = "casesTrend",
                 ContentParameters = new ContentParameters
@@ -101,12 +101,12 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 WidgetPosition = new WidgetPosition
                 {
                     PositionX = 0,
-                    PositionY = 0
+                    PositionY = 12
                 },
                 WidgetSize = new WidgetSize
                 {
                     Height = 5,
-                    Width = 5
+                    Width = 6
                 }
             };
         }
@@ -115,7 +115,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
         {
             return new Widget
             {
-                Name = "LAUNCHES DURATION CHART",
+                Name = $"LAUNCHES DURATION CHART_{UniquePostfix}",
                 Description = "Launches duration chart",
                 WidgetType = "launchesDurationChart",
                 ContentParameters = new ContentParameters
@@ -129,13 +129,13 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 Share = true,
                 WidgetPosition = new WidgetPosition
                 {
-                    PositionX = 0,
-                    PositionY = 0
+                    PositionX = 6,
+                    PositionY = 12
                 },
                 WidgetSize = new WidgetSize
                 {
                     Height = 5,
-                    Width = 5
+                    Width = 6
                 }
             };
         }
@@ -144,7 +144,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
         {
             return new Widget
             {
-                Name = "FAILED CASES TREND CHART",
+                Name = $"FAILED CASES TREND CHART_{UniquePostfix}",
                 Description = "Failed cases trend",
                 WidgetType = "bugTrend",
                 ContentParameters = new ContentParameters
@@ -161,12 +161,12 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 WidgetPosition = new WidgetPosition
                 {
                     PositionX = 0,
-                    PositionY = 0
+                    PositionY = 17
                 },
                 WidgetSize = new WidgetSize
                 {
                     Height = 5,
-                    Width = 5
+                    Width = 6
                 }
             };
         }
@@ -175,7 +175,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
         {
             return new Widget
             {
-                Name = "CUMULATIVE TREND",
+                Name = $"CUMULATIVE TREND_{UniquePostfix}",
                 Description = "Cumulative trend",
                 WidgetType = "cumulative",
                 ContentParameters = new ContentParameters
@@ -202,12 +202,12 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 WidgetPosition = new WidgetPosition
                 {
                     PositionX = 0,
-                    PositionY = 0
+                    PositionY = 5
                 },
                 WidgetSize = new WidgetSize
                 {
-                    Height = 5,
-                    Width = 5
+                    Height = 7,
+                    Width = 12
                 }
             };
         }
