@@ -11,6 +11,6 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("share")]
-        public bool Share { get; set; }
+        public bool Share { get; set; } = true;
     }
 }

@@ -241,6 +241,10 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         public IReportPortalService CreateDashBoard(RpDashboard rpDashboard)
         {
+            var filter = rpDashboard.Filter;
+            filter.Id = _service.CreateFilter(filter).Invoke().Body.Id;
+            var dashboard = rpDashboard.Dashboard;
+            dashboard.Id = _service.CreateDashboard(rpDashboard.Dashboard).Invoke().Body.Id;
             return this;
         }
 
