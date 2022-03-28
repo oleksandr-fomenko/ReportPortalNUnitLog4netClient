@@ -5,7 +5,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
 {
     public static class RpWidgetFactory
     {
-        public static Widget OverallStatistics(FilterShort filterShort, ViewMode viewMode = ViewMode.Donut)
+        public static Widget OverallStatistics(ViewMode viewMode = ViewMode.Donut)
         {
             return new Widget
             {
@@ -29,10 +29,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
                     {"latest", true},
                 }
                 },
-                Filters = new List<FilterShort>
-                { filterShort },
                 Share = true,
-                FilterIds = new List<string> { filterShort.Value },
                 WidgetPosition = new WidgetPosition
                 {
                     PositionX = 0,

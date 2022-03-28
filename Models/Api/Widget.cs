@@ -14,7 +14,7 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
         [JsonProperty("filters")]
         public List<FilterShort> Filters { get; set; }
         [JsonProperty("filterIds")]
-        public List<string> FilterIds { get; set; }
+        public List<long> FilterIds { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("share")]

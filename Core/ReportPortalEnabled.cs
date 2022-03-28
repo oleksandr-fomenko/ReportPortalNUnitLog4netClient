@@ -248,6 +248,15 @@ namespace ReportPortalNUnitLog4netClient.Core
 
             rpDashboard.Widgets.ForEach(w =>
             {
+                w.FilterIds = new List<long> { filter.Id };
+                w.Filters = new List<FilterShort>
+                {
+                    new FilterShort
+                    {
+                        Name = filter.Name,
+                        Value = filter.Id.ToString()
+                    }
+                };
                 w.Id = _service.CreateWidget(w).Invoke().Body.Id;
                 var addWidgetRequest = new AddWidgetRequest
                 {
