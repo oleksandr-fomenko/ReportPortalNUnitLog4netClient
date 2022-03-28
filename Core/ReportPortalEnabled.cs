@@ -239,6 +239,11 @@ namespace ReportPortalNUnitLog4netClient.Core
             return Launch;
         }
 
+        public IReportPortalService CreateDashBoard(RpDashboard rpDashboard)
+        {
+            return this;
+        }
+
         private string GetTestId(TestContext.TestAdapter test) => test.ID;
 
         private string GetParentItemName(TestContext.TestAdapter testAdapter)
