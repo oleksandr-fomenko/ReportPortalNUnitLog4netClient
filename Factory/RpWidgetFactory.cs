@@ -30,9 +30,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 }
                 },
                 Filters = new List<FilterShort>
-                {
-                    filterShort
-                },
+                { filterShort },
                 Share = true,
                 FilterIds = new List<string> { filterShort.Value }
             };
