@@ -4,6 +4,8 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
 {
     public class Dashboard
     {
+        [JsonProperty("id")]
+        public long Id { get; set; }
         [JsonProperty("description")]
         public string Description { get; set; }
         [JsonProperty("name")]

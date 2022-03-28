@@ -5,6 +5,8 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
 {
     public class Widget
     {
+        [JsonProperty("id")]
+        public long Id { get; set; }
         [JsonProperty("contentParameters")]
         public ContentParameters ContentParameters { get; set; }
         [JsonProperty("description")]
