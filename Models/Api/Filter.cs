@@ -16,7 +16,7 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
         [JsonProperty("conditions")]
         public List<Condition> Conditions { get; set; }
         [JsonProperty("orders")]
-        public List<Order> Orders { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; }
     }

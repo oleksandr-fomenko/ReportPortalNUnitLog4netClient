@@ -7,7 +7,7 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
         [JsonProperty("filteringField")]
         public string FilteringField { get; set; }
         [JsonProperty("condition")]
-        public string ConditionCondition { get; set; }
+        public string ConditionType { get; set; }
         [JsonProperty("value")]
         public string Value { get; set; }
     }
