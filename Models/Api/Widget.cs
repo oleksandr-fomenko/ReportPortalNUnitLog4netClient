@@ -21,5 +21,9 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
         public bool Share { get; set; }
         [JsonProperty("widgetType")]
         public string WidgetType { get; set; }
+        [JsonIgnore]
+        public WidgetPosition WidgetPosition { get; set; }
+        [JsonIgnore]
+        public WidgetSize WidgetSize { get; set; }
     }
 }

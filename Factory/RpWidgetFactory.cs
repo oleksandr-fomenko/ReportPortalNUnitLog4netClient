@@ -32,7 +32,17 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 Filters = new List<FilterShort>
                 { filterShort },
                 Share = true,
-                FilterIds = new List<string> { filterShort.Value }
+                FilterIds = new List<string> { filterShort.Value },
+                WidgetPosition = new WidgetPosition
+                {
+                    PositionX = 0,
+                    PositionY = 0
+                },
+                WidgetSize = new WidgetSize
+                {
+                    Height = 5,
+                    Width = 5
+                }
             };
         }
     }

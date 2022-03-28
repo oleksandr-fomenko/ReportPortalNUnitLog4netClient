@@ -249,8 +249,18 @@ namespace ReportPortalNUnitLog4netClient.Core
             rpDashboard.Widgets.ForEach(w =>
             {
                 w.Id = _service.CreateWidget(w).Invoke().Body.Id;
-                AddWidgetRequest addWidget = null; //todo mapping
-                _service.AddWidget(dashboard.Id, addWidget).Invoke();
+                var addWidgetRequest = new AddWidgetRequest
+                {
+                    AddWidget = new AddWidget
+                    {
+                        WidgetId = w.Id,
+                        WidgetName = w.Name,
+                        WidgetType = w.WidgetType,
+                        WidgetPosition = w.WidgetPosition,
+                        WidgetSize = w.WidgetSize
+                    }
+                }; 
+                _service.AddWidget(dashboard.Id, addWidgetRequest).Invoke();
             });
             return this;
         }
