@@ -46,7 +46,7 @@ namespace ReportPortalNUnitLog4netClient.Core
         Func<ResponseGeneric<Widget>> CreateWidget([Body] Widget body);
 
         [RequestMapping(Method.PUT, Path = "/{projectName}/dashboard/{dashboardId}/add", Headers = new[] { "Content-Type=application/json" })]
-        Func<Response> AddWidget([PathParameter("dashboardId")] string dashboardId, [Body] AddWidgetRequest body);
+        Func<Response> AddWidget([PathParameter("dashboardId")] long dashboardId, [Body] AddWidgetRequest body);
     }
 
     public class ReportPortalBaseInterceptor : IRequestInterceptor

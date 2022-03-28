@@ -245,6 +245,13 @@ namespace ReportPortalNUnitLog4netClient.Core
             filter.Id = _service.CreateFilter(filter).Invoke().Body.Id;
             var dashboard = rpDashboard.Dashboard;
             dashboard.Id = _service.CreateDashboard(rpDashboard.Dashboard).Invoke().Body.Id;
+
+            rpDashboard.Widgets.ForEach(w =>
+            {
+                w.Id = _service.CreateWidget(w).Invoke().Body.Id;
+                AddWidgetRequest addWidget = null; //todo mapping
+                _service.AddWidget(dashboard.Id, addWidget).Invoke();
+            });
             return this;
         }
 
