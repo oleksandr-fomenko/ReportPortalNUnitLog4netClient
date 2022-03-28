@@ -257,8 +257,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                         Value = filter.Id.ToString()
                     }
                 };
-                var wi = _service.CreateWidget(w).Invoke();
-                w.Id = wi.Body.Id;
+                w.Id = _service.CreateWidget(w).Invoke().Body.Id;
                 var addWidgetRequest = new AddWidgetRequest
                 {
                     AddWidget = new AddWidget
@@ -270,7 +269,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                         WidgetSize = w.WidgetSize
                     }
                 }; 
-                var s = _service.AddWidget(dashboard.Id, addWidgetRequest).Invoke();
+                _service.AddWidget(dashboard.Id, addWidgetRequest).Invoke();
             });
             return this;
         }
