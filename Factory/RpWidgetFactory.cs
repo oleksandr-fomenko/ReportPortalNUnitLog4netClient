@@ -171,6 +171,34 @@ namespace ReportPortalNUnitLog4netClient.Factory
             };
         }
 
+        public static Widget UniqueBugTable()
+        {
+            return new Widget
+            {
+                Name = $"UNIQUE BUG TABLE_{UniquePostfix}",
+                Description = "Unique bug table",
+                WidgetType = "uniqueBugTable",
+                ContentParameters = new ContentParameters
+                {
+                    ItemsCount = 1,
+                    WidgetOptions = new Dictionary<string, object> {
+                        {"latest", true}
+                    }
+                },
+                Share = true,
+                WidgetPosition = new WidgetPosition
+                {
+                    PositionX = 6,
+                    PositionY = 17
+                },
+                WidgetSize = new WidgetSize
+                {
+                    Height = 5,
+                    Width = 6
+                }
+            };
+        }
+
         public static Widget CumulativeTrend(string key1, string key2)
         {
             return new Widget
@@ -203,6 +231,37 @@ namespace ReportPortalNUnitLog4netClient.Factory
                 {
                     PositionX = 0,
                     PositionY = 5
+                },
+                WidgetSize = new WidgetSize
+                {
+                    Height = 7,
+                    Width = 12
+                }
+            };
+        }
+
+        public static Widget ComponentHealthCheck(string key1, string key2)
+        {
+            return new Widget
+            {
+                Name = $"COMPONENT HEALTH CHECK_{UniquePostfix}",
+                Description = "Health check",
+                WidgetType = "componentHealthCheck",
+                ContentParameters = new ContentParameters
+                {
+                    ContentFields = new string[0],
+                    ItemsCount = 50,
+                    WidgetOptions = new Dictionary<string, object> {
+                        {"latest", false},
+                        {"minPassingRate", "100"},
+                        {"attributeKeys", new []{ key1, key2}},
+                    }
+                },
+                Share = true,
+                WidgetPosition = new WidgetPosition
+                {
+                    PositionX = 0,
+                    PositionY = 29
                 },
                 WidgetSize = new WidgetSize
                 {

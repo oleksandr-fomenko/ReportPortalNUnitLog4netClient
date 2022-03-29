@@ -6,7 +6,7 @@ namespace ReportPortalNUnitLog4netClient.Factory
 {
     public static class RpDashboardFactory
     {
-        public static RpDashboard GetRpDashboard(string launchName, string dashboardName, string keyOneForCumulative, string keyTwoForCumulative)
+        public static RpDashboard GetRpDashboard(string launchName, string dashboardName, Attribute cumulative = null, Attribute healthCheck = null)
         {
             var filter = RpFilterFactory.ByLaunchName(launchName);
             var dashboard = new Dashboard
@@ -19,11 +19,28 @@ namespace ReportPortalNUnitLog4netClient.Factory
             {
                 RpWidgetFactory.LastLaunchStatistics(),
                 RpWidgetFactory.LaunchResultTrend(),
-                RpWidgetFactory.CumulativeTrend(keyOneForCumulative, keyTwoForCumulative),
+            };
+
+            if (cumulative != null)
+            {
+                widgets.Add(RpWidgetFactory.CumulativeTrend(cumulative.Key, cumulative.Value));
+            }
+
+            var widgetsAdditional = new[]
+            {
                 RpWidgetFactory.TestCasesTrend(),
                 RpWidgetFactory.LaunchesDurationChart(),
                 RpWidgetFactory.FailedCasesTrend(),
+                RpWidgetFactory.UniqueBugTable(),
             };
+
+            widgets.AddRange(widgetsAdditional);
+
+            if (healthCheck != null)
+            {
+                widgets.Add(RpWidgetFactory.ComponentHealthCheck(healthCheck.Key, healthCheck.Value));
+            }
+
             return new RpDashboard(filter, dashboard, widgets);
         }
     }
