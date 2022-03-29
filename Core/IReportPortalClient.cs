@@ -35,6 +35,18 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         [RequestMapping(Method.POST, Path = "/{projectName}/log", Headers = new[]{ "Content-Type=multipart/form-data" })]
         Func<ResponseGeneric<LogItem>> AddLogItem([Body(BodyType.Json, "json_request_part")] List<AddLogItemRequest> body, [File] SoftAPIClient.Core.FileParameter fileParameter);
+
+        [RequestMapping(Method.POST, Path = "/{projectName}/filter", Headers = new[] { "Content-Type=application/json" })]
+        Func<ResponseGeneric<Filter>> CreateFilter([Body] Filter body);
+
+        [RequestMapping(Method.POST, Path = "/{projectName}/dashboard", Headers = new[] { "Content-Type=application/json" })]
+        Func<ResponseGeneric<Dashboard>> CreateDashboard([Body] Dashboard body);
+
+        [RequestMapping(Method.POST, Path = "/{projectName}/widget", Headers = new[] { "Content-Type=application/json" })]
+        Func<ResponseGeneric<Widget>> CreateWidget([Body] Widget body);
+
+        [RequestMapping(Method.PUT, Path = "/{projectName}/dashboard/{dashboardId}/add", Headers = new[] { "Content-Type=application/json" })]
+        Func<Response> AddWidget([PathParameter("dashboardId")] long dashboardId, [Body] AddWidgetRequest body);
     }
 
     public class ReportPortalBaseInterceptor : IRequestInterceptor

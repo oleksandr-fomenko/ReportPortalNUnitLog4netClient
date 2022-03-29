@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using ReportPortalNUnitLog4netClient.Models;
 using ReportPortalNUnitLog4netClient.Models.Api;
 using Attribute = ReportPortalNUnitLog4netClient.Models.Api.Attribute;
 
@@ -37,6 +38,11 @@ namespace ReportPortalNUnitLog4netClient.Core
         public Launch GetLaunch()
         {
             return new Launch();
+        }
+
+        public IReportPortalService CreateDashBoard(RpDashboard rpDashboard)
+        {
+            return this;
         }
     }
 }

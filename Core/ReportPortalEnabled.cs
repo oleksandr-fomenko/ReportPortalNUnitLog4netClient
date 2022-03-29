@@ -239,6 +239,41 @@ namespace ReportPortalNUnitLog4netClient.Core
             return Launch;
         }
 
+        public IReportPortalService CreateDashBoard(RpDashboard rpDashboard)
+        {
+            var filter = rpDashboard.Filter;
+            filter.Id = _service.CreateFilter(filter).Invoke().Body.Id;
+            var dashboard = rpDashboard.Dashboard;
+            dashboard.Id = _service.CreateDashboard(rpDashboard.Dashboard).Invoke().Body.Id;
+
+            rpDashboard.Widgets.ForEach(w =>
+            {
+                w.FilterIds = new List<long> { filter.Id };
+                w.Filters = new List<FilterShort>
+                {
+                    new FilterShort
+                    {
+                        Name = filter.Name,
+                        Value = filter.Id.ToString()
+                    }
+                };
+                w.Id = _service.CreateWidget(w).Invoke().Body.Id;
+                var addWidgetRequest = new AddWidgetRequest
+                {
+                    AddWidget = new AddWidget
+                    {
+                        WidgetId = w.Id,
+                        WidgetName = w.Name,
+                        WidgetType = w.WidgetType,
+                        WidgetPosition = w.WidgetPosition,
+                        WidgetSize = w.WidgetSize
+                    }
+                }; 
+                _service.AddWidget(dashboard.Id, addWidgetRequest).Invoke();
+            });
+            return this;
+        }
+
         private string GetTestId(TestContext.TestAdapter test) => test.ID;
 
         private string GetParentItemName(TestContext.TestAdapter testAdapter)
