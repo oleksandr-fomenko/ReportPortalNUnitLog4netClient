@@ -8,15 +8,28 @@ namespace ReportPortalNUnitLog4netClient.Core.Logging
     {
         public static Status ToRpStatus(this TestStatus testStatus)
         {
-            return testStatus switch
+            Status status;
+            switch (testStatus)
             {
-                TestStatus.Failed => Status.Failed,
-                TestStatus.Passed => Status.Passed,
-                TestStatus.Inconclusive => Status.Interrupted,
-                TestStatus.Skipped => Status.Skipped,
-                TestStatus.Warning => Status.Skipped,
-                _ => throw new Exception($"Can't convert NUnit status {testStatus} to RP status"),
-            };
+                case TestStatus.Failed:
+                    status = Status.Failed;
+                    break;
+                case TestStatus.Passed:
+                    status = Status.Passed;
+                    break;
+                case TestStatus.Inconclusive:
+                    status = Status.Interrupted;
+                    break;
+                case TestStatus.Skipped:
+                    status = Status.Skipped;
+                    break;
+                case TestStatus.Warning:
+                    status = Status.Skipped;
+                    break;
+                default:
+                    throw new Exception($"Can't convert NUnit status {testStatus} to RP status");
+            }
+            return status;
         }
 
     }
