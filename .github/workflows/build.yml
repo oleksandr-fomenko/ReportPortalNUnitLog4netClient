@@ -8,7 +8,12 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        framework: ["net461", "netcoreapp3.1"]
+        
     runs-on: windows-latest
+    
     steps:
     - name: Set up JDK 11
       uses: actions/setup-java@v1
@@ -49,5 +54,5 @@ jobs:
       shell: powershell
       run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"automation-solutions-set_ReportPortalNUnitLog4netClient" /o:"automation-solutions-set" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ReportPortalNUnitLog4netClient.sln
+          dotnet build ReportPortalNUnitLog4netClient.sln --framework ${{ matrix.framework }}
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
