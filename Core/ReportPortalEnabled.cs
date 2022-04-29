@@ -320,7 +320,7 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         private Issue GetIssue(Status status, ICollection<string> ticketIds, out bool isProductBug)
         {
-            if (status != Status.Failed)
+            if (status != Status.Failed || status != Status.Interrupted)
             {
                 isProductBug = false;
                 return null;
