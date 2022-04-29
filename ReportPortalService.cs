@@ -37,7 +37,7 @@ namespace ReportPortalNUnitLog4netClient
             }
         }
 
-        public ReportPortalService Init(RpConfiguration rpConfiguration, IDictionary<Type, string> defectsMapping = null)
+        public ReportPortalService Init(RpConfiguration rpConfiguration, List<KeyValuePair<string, string>> defectsMapping = null)
         {
             if (rpConfiguration.IsEnabled)
             {

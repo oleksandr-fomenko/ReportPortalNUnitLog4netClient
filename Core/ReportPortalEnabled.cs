@@ -18,7 +18,7 @@ namespace ReportPortalNUnitLog4netClient.Core
     {
         private readonly object _lockObj = new object();
         private const string ProductBug = "PB001";
-        private readonly IDictionary<Type, string> _defectsResolutions = new Dictionary<Type, string>();
+        private readonly List<KeyValuePair<string, string>> _defectsResolutions = new List<KeyValuePair<string, string>>();
 
         private readonly IReportPortalClient _service;
         private readonly RpConfiguration _rpConfiguration;
@@ -31,7 +31,7 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         private Launch Launch { get; set; }
 
-        public ReportPortalEnabled(RpConfiguration rpConfiguration, IDictionary<Type, string> defectsMapping = null)
+        public ReportPortalEnabled(RpConfiguration rpConfiguration, List<KeyValuePair<string, string>> defectsMapping = null)
         {
             _rpConfiguration = rpConfiguration;
             RestClient.Instance.AddResponseConvertor(new RestSharpResponseConverter());
@@ -331,8 +331,8 @@ namespace ReportPortalNUnitLog4netClient.Core
 
             if (noTickets && errorMessage != null)
             {
-                var resolutionResults = _defectsResolutions.FirstOrDefault(p => errorMessage.Contains(p.Key.Name));
-                if (!resolutionResults.Equals(default(KeyValuePair<Type, string>)))
+                var resolutionResults = _defectsResolutions.FirstOrDefault(p => errorMessage.Contains(p.Key));
+                if (!resolutionResults.Equals(default(KeyValuePair<string, string>)))
                 {
                     isProductBug = false;
                     return new Issue
