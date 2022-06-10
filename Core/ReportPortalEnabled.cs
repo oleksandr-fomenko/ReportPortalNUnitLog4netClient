@@ -115,6 +115,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                         LaunchId = Launch.Id,
                         Name = suiteName,
                         StartTime = DateTime.UtcNow,
+                        Attributes = new List<Attribute> { new Attribute { Key = "suite", Value = suiteName } },
                         Type = TestItemType.Suite
                     }).Invoke().Body;
                     _suites.GetOrAdd(suiteName, suiteItem.Id);
@@ -133,6 +134,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                         LaunchId = Launch.Id,
                         Name = subSuite,
                         StartTime = DateTime.UtcNow,
+                        Attributes = new List<Attribute> { new Attribute { Key = "subSuite", Value = subSuite } },
                         Type = TestItemType.Suite,
                     }).Invoke().Body;
                     _subSuites.GetOrAdd(suitePlusSubSuiteKey, subSuiteItem.Id);
