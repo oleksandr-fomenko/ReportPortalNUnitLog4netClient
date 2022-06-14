@@ -153,7 +153,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                         LaunchId = Launch.Id,
                         Name = GetParentItemName(test),
                         StartTime = DateTime.UtcNow,
-                        Type = TestItemType.Suite,
+                        Type = TestItemType.Test,
                         Attributes = tags,
                         Description = GetTestParentDescription(testCodeId, tmsIds)
                     }).Invoke().Body;
@@ -168,7 +168,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                 LaunchId = Launch.Id,
                 Name = testName,
                 StartTime = DateTime.UtcNow,
-                Type = TestItemType.Test,
+                Type = TestItemType.Step,
                 Description = GetTestDataDescription(test)
             }).Invoke().Body;
 
