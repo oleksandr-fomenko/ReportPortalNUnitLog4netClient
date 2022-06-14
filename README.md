@@ -1,5 +1,5 @@
 # ReportPortalNUnitLog4netClient
-ReportPortal Client for NUnit and log4net developed on .NET Core 3.1+.
+ReportPortal Client for NUnit and log4net for .NET Core 3.1+, net461+.
 
 | Active Integrations | Status |
 |-|-|
