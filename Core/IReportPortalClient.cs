@@ -9,7 +9,7 @@ using SoftAPIClient.MetaData;
 
 namespace ReportPortalNUnitLog4netClient.Core
 {
-    [Client]
+    [Client(Logger = typeof(EmptyLogger))]
     public interface IReportPortalClient
     {
         [RequestMapping(Method.POST, Path = "/{projectName}/launch", Headers = new[] { "Content-Type=application/json" })]
@@ -84,6 +84,24 @@ namespace ReportPortalNUnitLog4netClient.Core
                     { "projectName", Project }
                 }
             };
+        }
+    }
+
+    public class EmptyLogger : IRestLogger
+    {
+        public void LogBefore(string message)
+        {
+            //do nothing
+        }
+
+        public void LogRequest(Request request)
+        {
+            //do nothing
+        }
+
+        public void LogResponse(Response response)
+        {
+            //do nothing
         }
     }
 
