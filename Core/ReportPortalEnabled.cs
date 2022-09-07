@@ -415,7 +415,7 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         private string GetTestDataDescription(TestContext.TestAdapter testAdapter)
         {
-            return testAdapter.Arguments.Length == 0 ? null : $"InputData:{Environment.NewLine}{DecorateArguments(testAdapter.Arguments)}";
+            return testAdapter.Arguments?.Length == 0 ? null : $"InputData:{Environment.NewLine}{DecorateArguments(testAdapter.Arguments)}";
         }
 
         private void WriteLaunchDataToFile()
@@ -430,6 +430,10 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         private string DecorateArguments(IEnumerable<object> arguments)
         {
+            if (arguments == null)
+            {
+                return string.Empty;
+            }
             var result = "[";
             foreach (var item in arguments)
             {
