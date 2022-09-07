@@ -287,7 +287,7 @@ namespace ReportPortalNUnitLog4netClient.Core
         {
             var testArguments = testAdapter.Arguments;
             var testName = GetTestNameShort(testAdapter);
-            if (testArguments.Length == 0)
+            if (testArguments?.Length == 0)
             {
                 return testName;
             }
