@@ -9,7 +9,7 @@ using SoftAPIClient.MetaData;
 
 namespace ReportPortalNUnitLog4netClient.Core
 {
-    [Client]
+    [Client(ResponseInterceptors = new[] { typeof(ReportPortalResponseInterceptor) })]
     public interface IReportPortalClient
     {
         [RequestMapping(Method.POST, Path = "/{projectName}/launch", Headers = new[] { "Content-Type=application/json" })]
@@ -87,4 +87,14 @@ namespace ReportPortalNUnitLog4netClient.Core
         }
     }
 
+    public class ReportPortalResponseInterceptor : IResponseInterceptor
+    {
+        public void ProcessResponse(Response response)
+        {
+            if ((int)response.HttpStatusCode >= 400)
+            {
+                throw new Exception($"Report Portal API throws exception: HttpStatusCode - {response.HttpStatusCode}, Body - {response.ResponseBodyString}");
+            }
+        }
+    }
 }
