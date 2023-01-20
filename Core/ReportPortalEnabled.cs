@@ -64,7 +64,6 @@ namespace ReportPortalNUnitLog4netClient.Core
 
         public IReportPortalService FinishLaunch()
         {
-            var isForceFinish = false;
             try
             {
                 FinishItems(_parentTestItem);
@@ -73,27 +72,17 @@ namespace ReportPortalNUnitLog4netClient.Core
             }
             catch (Exception)
             {
-                isForceFinish = true;
+                //ignore
             }
             finally
             {
                 var endTime = DateTime.UtcNow;
                 Launch.EndTime = endTime;
 
-                if (isForceFinish)
+                _service.FinishLaunch(Launch.Id, new FinishLaunchRequest
                 {
-                    _service.StopLaunch(Launch.Id, new FinishLaunchRequest
-                    {
-                        EndTime = endTime
-                    }).Invoke();
-                }
-                else
-                {
-                    _service.FinishLaunch(Launch.Id, new FinishLaunchRequest
-                    {
-                        EndTime = endTime
-                    }).Invoke();
-                }
+                    EndTime = endTime
+                }).Invoke();
 
                 if (_rpConfiguration.IsWriteLaunchData)
                 {
