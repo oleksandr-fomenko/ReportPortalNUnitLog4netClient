@@ -60,9 +60,9 @@ namespace ReportPortalNUnitLog4netClient
             return _iReportPortalService?.FinishLaunch();
         }
 
-        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null)
+        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null, List<Attribute> testItemTags = null)
         {
-            return _iReportPortalService.StartTest(test, suiteName, subSuite, tags, testCodeId, tmsIds);
+            return _iReportPortalService.StartTest(test, suiteName, subSuite, tags, testCodeId, tmsIds, testItemTags);
         }
 
         public IReportPortalService FinishTest(TestContext.TestAdapter test, TestStatus status, string errorMessage, List<string> ticketIds)
