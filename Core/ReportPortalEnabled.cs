@@ -92,7 +92,7 @@ namespace ReportPortalNUnitLog4netClient.Core
             return this;
         }
 
-        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null)
+        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> testSuiteTags, string testCodeId = null, List<string> tmsIds = null, List<Attribute> testItemTags = null)
         {
             lock (_lockObj)
             {
@@ -143,7 +143,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                         Name = GetParentItemName(test),
                         StartTime = DateTime.UtcNow,
                         Type = TestItemType.Test,
-                        Attributes = tags,
+                        Attributes = testSuiteTags,
                         Description = GetTestParentDescription(testCodeId, tmsIds)
                     }).Invoke().Body;
                     _parentTestItem.GetOrAdd(parentItemName, parentItem.Id);
@@ -158,6 +158,7 @@ namespace ReportPortalNUnitLog4netClient.Core
                 Name = testName,
                 StartTime = DateTime.UtcNow,
                 Type = TestItemType.Step,
+                Attributes = testItemTags,
                 Description = GetTestDataDescription(test)
             }).Invoke().Body;
 

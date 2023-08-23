@@ -20,7 +20,7 @@ namespace ReportPortalNUnitLog4netClient.Core
             return this;
         }
 
-        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null)
+        public IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null, List<Attribute> testItemTags = null)
         {
             return this;
         }

@@ -12,7 +12,7 @@ namespace ReportPortalNUnitLog4netClient.Core
     {
         IReportPortalService StartLaunch(List<Attribute> tags = null);
         IReportPortalService FinishLaunch();
-        IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null);
+        IReportPortalService StartTest(TestContext.TestAdapter test, string suiteName, string subSuite, List<Attribute> tags, string testCodeId = null, List<string> tmsIds = null, List<Attribute> testItemTags = null);
         IReportPortalService FinishTest(TestContext.TestAdapter test, TestStatus status, string errorMessage, List<string> ticketIds);
         IReportPortalService Log(TestContext.TestAdapter test, LogLevel level, DateTime time, string text, Attach attach = null);
         Launch GetLaunch();
