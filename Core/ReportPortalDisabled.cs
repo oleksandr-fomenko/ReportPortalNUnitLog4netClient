@@ -44,5 +44,10 @@ namespace ReportPortalNUnitLog4netClient.Core
         {
             return this;
         }
+
+        public string GetLaunchUiLink()
+        {
+            return string.Empty;
+        }
     }
 }

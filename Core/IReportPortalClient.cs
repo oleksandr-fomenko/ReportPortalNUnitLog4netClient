@@ -12,6 +12,12 @@ namespace ReportPortalNUnitLog4netClient.Core
     [Client(ResponseInterceptors = new[] { typeof(ReportPortalResponseInterceptor) })]
     public interface IReportPortalClient
     {
+        [RequestMapping(Method.GET, Path = "/{projectName}/launch/uuid/{launchUuid}", Headers = new[] { "Content-Type=application/json" })]
+        Func<ResponseGeneric<Launch>> GetLaunchByUuid([PathParameter("launchUuid")] string launchUuId);
+
+        [RequestMapping(Method.GET, Path = "/{projectName}/launch/{launchId}", Headers = new[] { "Content-Type=application/json" })]
+        Func<ResponseGeneric<Launch>> GetLaunchById([PathParameter("launchId")] string launchUuId);
+
         [RequestMapping(Method.POST, Path = "/{projectName}/launch", Headers = new[] { "Content-Type=application/json" })]
         Func<ResponseGeneric<Launch>> StartLaunch([Body] StartLaunchRequest body);
 
@@ -69,7 +75,7 @@ namespace ReportPortalNUnitLog4netClient.Core
             var uri = Uri.ToString();
             if (!Uri.LocalPath.ToLowerInvariant().Contains($"api/{ApiVersion}"))
             {
-                uri = $"{Uri}/api/{ApiVersion}";
+                uri = $"{Uri}api/{ApiVersion}";
             }
             return new Request
             {
