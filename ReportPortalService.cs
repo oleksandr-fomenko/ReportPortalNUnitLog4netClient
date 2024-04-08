@@ -84,5 +84,10 @@ namespace ReportPortalNUnitLog4netClient
         {
             return _iReportPortalService.CreateDashBoard(rpDashboard);
         }
+
+        public string GetLaunchUiLink()
+        {
+            return _iReportPortalService.GetLaunchUiLink();
+        }
     }
 }

@@ -17,5 +17,6 @@ namespace ReportPortalNUnitLog4netClient.Core
         IReportPortalService Log(TestContext.TestAdapter test, LogLevel level, DateTime time, string text, Attach attach = null);
         Launch GetLaunch();
         IReportPortalService CreateDashBoard(RpDashboard rpDashboard);
+        string GetLaunchUiLink();
     }
 }

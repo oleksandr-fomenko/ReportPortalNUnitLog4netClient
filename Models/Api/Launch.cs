@@ -7,6 +7,8 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
     {
         [JsonProperty("id")]
         public string Id { get; set; }
+        [JsonProperty("uuid")]
+        public string Uuid { get; set; }
         [JsonProperty("endTime")]
         public DateTime EndTime { get; set; }
         [JsonIgnore]
@@ -19,5 +21,7 @@ namespace ReportPortalNUnitLog4netClient.Models.Api
         public Statistics Statistics { get; set; }
         [JsonProperty("status")]
         public string Status { get; set; }
+        [JsonProperty("link")]
+        public string Link { get; set; }
     }
 }

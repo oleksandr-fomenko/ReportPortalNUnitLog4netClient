@@ -28,7 +28,7 @@ namespace ReportPortalNUnitLog4netClient.Core
         private static ConcurrentDictionary<string, string> _parentTestItem;
         private static ConcurrentDictionary<string, int> _countOfTheTestsExecutions;
         private static readonly string RpDataFileName = $"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}rp_data.txt";
-
+        private static string _launchLink = string.Empty;
         private Launch Launch { get; set; }
 
         public ReportPortalEnabled(RpConfiguration rpConfiguration, List<KeyValuePair<string, string>> defectsMapping = null)
@@ -79,10 +79,11 @@ namespace ReportPortalNUnitLog4netClient.Core
                 var endTime = DateTime.UtcNow;
                 Launch.EndTime = endTime;
 
-                _service.FinishLaunch(Launch.Id, new FinishLaunchRequest
+                var launchResponse = _service.FinishLaunch(Launch.Id, new FinishLaunchRequest
                 {
                     EndTime = endTime
                 }).Invoke();
+                _launchLink = launchResponse.Body.Link;
 
                 if (_rpConfiguration.IsWriteLaunchData)
                 {
@@ -264,6 +265,20 @@ namespace ReportPortalNUnitLog4netClient.Core
                 _service.AddWidget(dashboard.Id, addWidgetRequest).Invoke();
             });
             return this;
+        }
+
+
+        public string GetLaunchUiLink()
+        {
+            if (string.Empty != _launchLink)
+            {
+                return _launchLink;
+            }
+            var responseBody = _service.GetLaunchByUuid(Launch.Id).Invoke().Body;
+
+           var rpModeAdd = _rpConfiguration.Mode.ToString().Equals(responseBody?.Mode?.ToString(), StringComparison.InvariantCultureIgnoreCase) ? "/userdebug" : "/launches";
+
+            return $"{_rpConfiguration.Uri}ui/#{_rpConfiguration.Project}{rpModeAdd}/all/{responseBody.Id}";
         }
 
         private string GetTestId(TestContext.TestAdapter test) => test.ID;
