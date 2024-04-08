@@ -54,6 +54,6 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       shell: powershell
       run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"automation-solutions-set_ReportPortalNUnitLog4netClient" /o:"automation-solutions-set" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"oleksandr-fomenko_ReportPortalNUnitLog4netClient" /o:"oleksandr-fomenko" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build ReportPortalNUnitLog4netClient.sln --framework ${{ matrix.framework }}
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
