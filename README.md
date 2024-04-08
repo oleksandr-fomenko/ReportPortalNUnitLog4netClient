@@ -3,9 +3,9 @@ ReportPortal Client for NUnit and log4net for .NET Core 3.1+, net461+.
 
 | Active Integrations | Status |
 |-|-|
-| *Github Build* | ![](https://github.com/automation-solutions-set/ReportPortalNUnitLog4netClient/actions/workflows/build.yml/badge.svg) |
-| *SonarCloud* | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=automation-solutions-set_ReportPortalNUnitLog4netClient&metric=alert_status)](https://sonarcloud.io/dashboard?id=automation-solutions-set_ReportPortalNUnitLog4netClient) |
-| *FOSSA* | [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fautomation-solutions-set%2FReportPortalNUnitLog4netClient.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fautomation-solutions-set%2FReportPortalNUnitLog4netClient?ref=badge_shield) |
+| *Github Build* | ![](https://github.com/oleksandr-fomenko/ReportPortalNUnitLog4netClient/actions/workflows/build.yml/badge.svg) |
+| *SonarCloud* | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oleksandr-fomenko_ReportPortalNUnitLog4netClient&metric=alert_status)](https://sonarcloud.io/dashboard?id=oleksandr-fomenko_ReportPortalNUnitLog4netClient) |
+| *FOSSA* | [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Foleksandr-fomenko%2FReportPortalNUnitLog4netClient.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Foleksandr-fomenko%2FReportPortalNUnitLog4netClient?ref=badge_shield) |
 | *Snyk* | [![](https://avatars.githubusercontent.com/ml/251?s=24)](https://app.snyk.io/org/oleksandr-fomenko/projects) |
 
 |Nuget Packages | Statistics |
@@ -18,7 +18,7 @@ dotnet add package ReportPortalNUnitLog4netClient
 ```
 
 ## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fautomation-solutions-set%2FReportPortalNUnitLog4netClient.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fautomation-solutions-set%2FReportPortalNUnitLog4netClient?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Foleksandr-fomenko%2FReportPortalNUnitLog4netClient.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Foleksandr-fomenko%2FReportPortalNUnitLog4netClient?ref=badge_large)
 
 Give a Star! :star:
 
