@@ -101,6 +101,10 @@ namespace ReportPortalNUnitLog4netClient.Core
             {
                 throw new Exception($"Report Portal API throws exception: HttpStatusCode - {response.HttpStatusCode}, Body - {response.ResponseBodyString}");
             }
+            if (response.Exception != null)
+            {
+                throw response.Exception;
+            }
         }
     }
 }
